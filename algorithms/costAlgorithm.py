@@ -29,18 +29,21 @@ class CostAlgorithm:
         depth = 0
 
         # TODO: define currentNode
-        currentNode = None
+        currentNode = stack[0]
 
         while not (currentNode.isGoal()):
             if not (kirbyPos[1] + 1 > 14) and currentNode.getState()[kirbyPos[0], kirbyPos[1] + 1] != 1:
                 son = Node(currentNode.getState(), currentNode,
                            "right", currentNode.getDepth() + 1, currentNode.getCost(), currentNode.getStar(), currentNode.getFlower())
+
                 right = rightMovement(kirbyPos)
                 son.setNewCost(right)
                 son.setKirbyPos(right)
+
                 son.moveRight(kirbyPos)
                 if son.avoidGoBack2(right):
                     # TODO: Update the stack
+                    stack.append(son)
                     if son.getDepth() > depth:
                         depth = son.getDepth()
 
@@ -53,6 +56,7 @@ class CostAlgorithm:
                 son.moveLeft(kirbyPos)
                 if son.avoidGoBack2(left):
                     # TODO: Update the stack
+                    stack.append(son)
                     if son.getDepth() > depth:
                         depth = son.getDepth()
 
@@ -65,6 +69,7 @@ class CostAlgorithm:
                 son.moveDown(kirbyPos)
                 if son.avoidGoBack2(down):
                     # TODO: Update the stack
+                    stack.append(son)
                     if son.getDepth() > depth:
                         depth = son.getDepth()
 
@@ -77,13 +82,16 @@ class CostAlgorithm:
                 son.moveUp(kirbyPos)
                 if son.avoidGoBack2(up):
                     # TODO: Update the stack
+                    stack.append(son)
                     if son.getDepth() > depth:
                         depth = son.getDepth()
 
+
             # TODO: Update the stack
+            stack.remove(currentNode)
 
             # TODO: Implement your code here
-            currentNode = None
+            currentNode = getNodeMinCost(stack)
 
             expandedNodes += 1
             kirbyPos = currentNode.getKirbyPos()

@@ -3,6 +3,16 @@ from algorithms.common import find_possible_moves
 from time import process_time
 
 
+def dfsImplementation(visited, currentNode):
+    if currentNode not in visited:
+        if currentNode.isGoal():
+            return currentNode
+
+        visited.add(currentNode)
+        for neighbor in find_possible_moves(currentNode):
+            dfsImplementation(visited, neighbor)
+
+
 class DFS:
     def __init__(self, world):
         self.emptyNode = Node(None, None, "first father", -1, 0, 0, 0)
@@ -19,27 +29,27 @@ class DFS:
 
     def start(self):
         startTime = process_time()
+        stack = self.stack
         expandedNodes = 0
         depth = 0
 
         # TODO: define required variables here
-        currentNode = None
-
+        currentNode = stack[0]
 
         while not currentNode.isGoal():
             possible_moves = find_possible_moves(currentNode)
             for move in possible_moves:
                 # TODO: Implement your code here
-
+                stack.append(move)
                 # Don't alter this
                 if move.getDepth() > depth:
                     depth = move.getDepth()
 
             # TODO: Implement your code here
-            currentNode = None
-
+            currentNode = stack.pop()
             # Don't alter this
             expandedNodes += 1
+
 
         # Don't alter this
         elapsedTime = process_time() - startTime
@@ -53,4 +63,3 @@ class DFS:
         print("The final cost of the solution is: " + str(currentNode.getCost()))
         print(currentNode.recreateSolution())
         return [solutionWorld, expandedNodes + 1, depth]
-

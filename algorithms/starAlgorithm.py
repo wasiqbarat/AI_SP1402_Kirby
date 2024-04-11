@@ -1,11 +1,9 @@
 from node import Node, upMovement, calculateHeuristic, downMovement, leftMovement, rightMovement
 from time import process_time
 
-
 def getNodeMinSumCostHeuristic(stack):
     minNode = min(stack, key=lambda node: node.getSumCostHeuristic())
     return minNode
-
 
 class StarAlgorithm:
     def __init__(self, world):
@@ -39,7 +37,7 @@ class StarAlgorithm:
         depth = 0
 
         # TODO: define currentNode
-        currentNode = None
+        currentNode = stack[0]
 
         while not (currentNode.isGoal()):
             if not (kirbyPos[1] + 1 > 14) and currentNode.getState()[kirbyPos[0], kirbyPos[1] + 1] != 1:
@@ -50,6 +48,11 @@ class StarAlgorithm:
                 son.setNewCost(right)
                 son.setKirbyPos(right)
                 # TODO: implement the heuristic logic
+                sonManhattanDistance = son.calculateManhattanDistance(
+                    self.wandanaPos)
+                sonHeuristic = calculateHeuristic(sonManhattanDistance)
+                son.setHeuristic(sonHeuristic)
+
                 son.moveRight(kirbyPos)
                 if son.avoidGoBack2(right):
                     stack.append(son)
@@ -64,6 +67,11 @@ class StarAlgorithm:
                 son.setNewCost(left)
                 son.setKirbyPos(left)
                 # TODO: implement the heuristic logic
+                sonManhattanDistance = son.calculateManhattanDistance(
+                    self.wandanaPos)
+                sonHeuristic = calculateHeuristic(sonManhattanDistance)
+                son.setHeuristic(sonHeuristic)
+
                 son.moveLeft(kirbyPos)
                 if son.avoidGoBack2(left):
                     stack.append(son)
@@ -78,6 +86,11 @@ class StarAlgorithm:
                 son.setNewCost(down)
                 son.setKirbyPos(down)
                 # TODO: implement the heuristic logic
+                sonManhattanDistance = son.calculateManhattanDistance(
+                    self.wandanaPos)
+                sonHeuristic = calculateHeuristic(sonManhattanDistance)
+                son.setHeuristic(sonHeuristic)
+
                 son.moveDown(kirbyPos)
                 if son.avoidGoBack2(down):
                     stack.append(son)
@@ -92,6 +105,11 @@ class StarAlgorithm:
                 son.setNewCost(up)
                 son.setKirbyPos(up)
                 # TODO: implement the heuristic logic
+                sonManhattanDistance = son.calculateManhattanDistance(
+                    self.wandanaPos)
+                sonHeuristic = calculateHeuristic(sonManhattanDistance)
+                son.setHeuristic(sonHeuristic)
+
                 son.moveUp(kirbyPos)
                 if son.avoidGoBack2(up):
                     stack.append(son)
@@ -99,9 +117,10 @@ class StarAlgorithm:
                         depth = son.getDepth()
 
             # TODO Update the stack
+            stack.remove(currentNode)
 
             # TODO: define currentNode
-            currentNode = None
+            currentNode = getNodeMinSumCostHeuristic(stack)
 
             expandedNodes += 1
             kirbyPos = currentNode.getKirbyPos()

@@ -19,24 +19,24 @@ class BFS:
 
     def start(self):
         startTime = process_time()
+        stack = self.stack
         expandedNodes = 0
         depth = 0
 
         # TODO: define required variables here
-        currentNode = None
+        currentNode = stack[0]
 
         while not currentNode.isGoal():
             possible_moves = find_possible_moves(currentNode)
             for move in possible_moves:
                 # TODO: Implement your code here
-
+                stack.append(move)
                 # Don't alter this
                 if move.getDepth() > depth:
                     depth = move.getDepth()
 
             # TODO: Implement your code here
-            currentNode = None
-
+            currentNode = stack.pop(0)
             # Don't alter this
             expandedNodes += 1
 

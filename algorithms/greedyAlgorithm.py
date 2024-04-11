@@ -77,6 +77,7 @@ class GreedyAlgorithm:
             down = downMovement(kirbyPos)
             son.setNewCost(down)
             son.setKirbyPos(down)
+
             sonManhattanDistance = son.calculateManhattanDistance(
                 self.wandanaPos)
             sonHeuristic = calculateHeuristic(sonManhattanDistance)
@@ -117,8 +118,8 @@ class GreedyAlgorithm:
             stack += possible_moves
 
             stack.remove(currentNode)
-
             currentNode = getNodeMinHeuristic(stack)
+
             expandedNodes += 1
 
         elapsedTime = process_time() - startTime
@@ -128,9 +129,9 @@ class GreedyAlgorithm:
         solution = currentNode.recreateSolutionWorld()
         solutionWorld = solution[::-1]
         print("Meta heuristic:", currentNode.getHeuristic())
-        print("Expanded nodes: ", expandedNodes+1)  # Good
+        print("Expanded nodes: ", expandedNodes + 1)  # Good
         print("Depth: ", depth)
         print("The final cost of the solution is: " + str(currentNode.getCost()))
         print("Times it went right:", currentNode.getRightCount())
         print(currentNode.recreateSolution())
-        return [solutionWorld, expandedNodes+1, depth]
+        return [solutionWorld, expandedNodes + 1, depth]
